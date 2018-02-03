@@ -1,0 +1,46 @@
+.TH "IPOL tools User Manual" 1 "03 Feb 2018" "IPOL documentation"
+
+.SH NAME
+cartoontexture
+
+.SH DESCRIPTION
+Cartoon+texture decomposition by the TV-L1 model.
+
+.SH SYNOPSIS
+cartoontexture image lambda cartoon texture
+
+.SH OPTIONS
+.TP
+image
+name input graphics file (jpeg | png | tiff)
+.TP
+lambda
+the regularization parameter (int, mandatory)
+.TP
+cartoon
+name output graphics file (jpeg | png | tiff)
+.TP
+texture
+name output graphics file (jpeg | png | tiff)
+
+.SH EXAMPLE
+cartoontexture in.png 50 cartoon.png texture.png
+
+.SH COPYRIGHT
+Copyright : (C) 2017 IPOL Image Processing On Line http://www.ipol.im/
+ Licence   : GPL v3+, see GPLv3.txt
+
+.SH SEE ALSO
+ cjpeg (1),
+ djpeg (1)
+
+.SH CONTACTS
+.TP
+Author:
+Nicola Pierazzo <nicolapierazzo@gmail.com>
+.TP
+Author:
+Gabriele Facciolo <gfacciol@gmail.com>
+.TP
+Latest version available at:
+https://github.com/npd/cartoon_texture

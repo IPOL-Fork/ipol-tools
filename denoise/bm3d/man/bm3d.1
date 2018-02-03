@@ -1,0 +1,78 @@
+.TH "IPOL tools User Manual" 1 "03 Feb 2018" "IPOL documentation"
+
+.SH NAME
+bm3d
+
+.SH DESCRIPTION
+BM3D image denoising.
+
+.SH SYNOPSIS
+bm3d input sigma output [basic]
+             [-tau_2d_hard {dct,bior} (default: bior)]
+             [-useSD_hard]
+             [-tau_2d_wien {dct,bior} (default: dct)]
+             [-useSD_wien]
+             [-color_space {rgb,yuv,opp,ycbcr} (default: opp)]
+             [-patch_size {0,8,...} (default: 0, auto size, 8 or 12 depending on sigma)]
+             [-nb_threads (default: 0, auto number)]
+             [-verbose]
+
+.SH OPTIONS
+.TP
+input
+name input graphics file (jpeg | png | tiff)
+.TP
+sigma
+is the value of the noise (int, mandatory, recomended = 16)
+.TP
+output
+name output graphics file (jpeg | png | tiff)
+.TP
+basic
+will contain the result of the first step of the algorithm
+.TP
+-2DtransformStep1
+choice of the 2D transform which will be applied in the second step of the algorithm. You can choose the DCT transform or the Bior1.5 transform for the 2D transform in the step 1 (tau_2D_hard = dct or bior) and/or the step 2. (tau_2d_wien = dct or bior).
+.TP
+-useSD_hard
+for the first step, users can choose if they prefer to use standard variation for the weighted aggregation (useSD1 = 1)
+.TP
+-2DtransformStep2
+choice of the 2D transform which will be applied in the second step of the algorithm. You can choose the DCT transform or the Bior1.5 transform for the 2D transform in the step 1 (tau_2D_hard = dct or bior) and/or the step 2. (tau_2d_wien = dct or bior).
+.TP
+-useSD_wien
+for the second step, users can choose if they prefer to use standard variation for the weighted aggregation (useSD2 = 1)
+.TP
+-color_space
+ColorSpace: choice of the color space on which the image will be applied. You can choose the colorspace for both steps between : rgb, yuv, ycbcr and opp.
+.TP
+-patch_size
+overrides the default patch size
+.TP
+-nb_threads
+specifies the number of working threads
+.TP
+-verbose
+print additional information
+
+.SH EXAMPLE
+bm3d input.png 10 output.png basic.png -useSD_wien -tau_2d_hard bior -tau_2d_wien dct -color_space opp
+
+.SH COPYRIGHT
+Copyright : (C) 2017 IPOL Image Processing On Line http://www.ipol.im/
+ Licence   : GPL v3+, see GPLv3.txt
+
+.SH SEE ALSO
+ cjpeg (1),
+ djpeg (1)
+
+.SH CONTACTS
+.TP
+Author:
+Nicola Pierazzo <nicolapierazzo@gmail.com>
+.TP
+Author:
+Gabriele Facciolo <gfacciol@gmail.com>
+.TP
+Latest version available at:
+https://github.com/gfacciol/bm3d

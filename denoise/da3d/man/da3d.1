@@ -1,0 +1,47 @@
+.TH "IPOL tools User Manual" 1 "03 Feb 2018" "IPOL documentation"
+
+.SH NAME
+da3d
+
+.SH DESCRIPTION
+Data Adaptive Dual Domain Denoising
+
+.SH SYNOPSIS
+da3d noisy guide sigma output
+
+.SH OPTIONS
+.TP
+noisy
+name input graphics file (jpeg | png | tiff)
+.TP
+guide
+image must be computed from the noisy image using another denoising algorithm for instance: bm3d, nl-bayer, nlmeans, dctdenoising (jpeg | png | tiff)
+.TP
+sigma
+noise std (int, mandatory, recomended = 16)
+.TP
+output
+name output graphics file (jpeg | png | tiff)
+
+.SH EXAMPLE
+nl-bayer 16 noisy.tiff guide.png
+da3d noisy.tiff guide.png 16 denoised.png
+
+.SH COPYRIGHT
+Copyright : (C) 2017 IPOL Image Processing On Line http://www.ipol.im/
+ Licence   : GPL v3+, see GPLv3.txt
+
+.SH SEE ALSO
+ cjpeg (1),
+ djpeg (1)
+
+.SH CONTACTS
+.TP
+Author:
+Nicola Pierazzo <nicolapierazzo@gmail.com>
+.TP
+Author:
+Gabriele Facciolo <gfacciol@gmail.com>
+.TP
+Latest version available at:
+https://github.com/gfacciol/da3d

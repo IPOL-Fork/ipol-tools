@@ -1,0 +1,46 @@
+.TH "IPOL tools User Manual" 1 "03 Feb 2018" "IPOL documentation"
+
+.SH NAME
+ksvd
+
+.SH DESCRIPTION
+K-SVD image denoising.
+
+.SH SYNOPSIS
+ksvd input sigma output [-a]
+
+.SH OPTIONS
+.TP
+input
+name input graphics file (jpeg | png | tiff)
+.TP
+sigma
+noise std (int, mandatory, recomended = 16)
+.TP
+output
+name output graphics file (jpeg | png | tiff)
+.TP
+-a
+use acceleration
+
+.SH EXAMPLE
+ksvd cinput.png 10 ImNoisy.png ImDenoised.png ImDiff.png ImBias.png ImDiffBias.png 0 1 0
+
+.SH COPYRIGHT
+Copyright : (C) 2017 IPOL Image Processing On Line http://www.ipol.im/
+ Licence   : GPL v3+, see GPLv3.txt
+
+.SH SEE ALSO
+ cjpeg (1),
+ djpeg (1)
+
+.SH CONTACTS
+.TP
+Author:
+Nicola Pierazzo <nicolapierazzo@gmail.com>
+.TP
+Author:
+Gabriele Facciolo <gfacciol@gmail.com>
+.TP
+Latest version available at:
+https://github.com/npd/ksvd

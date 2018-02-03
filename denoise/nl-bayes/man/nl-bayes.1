@@ -1,0 +1,46 @@
+.TH "IPOL tools User Manual" 1 "03 Feb 2018" "IPOL documentation"
+
+.SH NAME
+nl-bayes
+
+.SH DESCRIPTION
+Trimmed-down version of the Non-Local Bayes denoising algorithm.
+
+.SH SYNOPSIS
+nl-bayes sigma [input [output]] [-1 | -2 guide]
+
+.SH OPTIONS
+.TP
+sigma
+noise std (int, mandatory, recomended = 16)
+.TP
+input
+name input graphics file (jpeg | png | tiff)
+.TP
+output
+name output graphics file (jpeg | png | tiff)
+.TP
+-1|2
+guide (-1: only hard thresh., -2: provide guide)
+
+.SH EXAMPLE
+nl-bayer 16 noisy.tiff denoised.png
+
+.SH COPYRIGHT
+Copyright : (C) 2017 IPOL Image Processing On Line http://www.ipol.im/
+ Licence   : GPL v3+, see GPLv3.txt
+
+.SH SEE ALSO
+ cjpeg (1),
+ djpeg (1)
+
+.SH CONTACTS
+.TP
+Author:
+Nicola Pierazzo <nicolapierazzo@gmail.com>
+.TP
+Author:
+Gabriele Facciolo <gfacciol@gmail.com>
+.TP
+Latest version available at:
+https://github.com/npd/nl-bayes
