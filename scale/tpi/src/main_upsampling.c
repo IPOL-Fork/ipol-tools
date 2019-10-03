@@ -1,0 +1,170 @@
+/* SPDX-License-Identifier: GPL-2.0+
+ * 
+ * Thibaud Briand <briand.thibaud@gmail.com>
+ * 
+ * Copyright (c) 2018-2019, Thibaud Briand
+ * All rights reserved.
+ *
+ * This program is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * You should have received a copy of the GNU General Pulic License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <iio.h>
+
+#include "xmtime.h"
+#include "resampling.h"
+#include "fft_core.h"
+
+#define PAR_DEFAULT_INTERP 1
+#define PAR_DEFAULT_INPUT 1
+
+// display help usage.
+void print_help(char *name)
+{
+    printf("\n<Usage>: %s input output valuex valuey [OPTIONS]\n\n", name);
+
+    printf("The optional parameters are:\n");
+    printf("-i, \t Specify the trigonometric polynomial interpolator type (by default %i)\n", PAR_DEFAULT_INTERP);
+    printf("\t \t \t 0 --> Real part of complex convention\n");
+    printf("\t \t \t 1 --> Real convention\n");
+    printf("-t, \t Specify the input type of valuex and valuey (by default %i)\n", PAR_DEFAULT_INPUT);
+    printf("\t \t \t 0 --> Output image sizes\n");
+    printf("\t \t \t 1 --> Up-sampling factors (>=1)\n");
+}
+
+// read command line parameters
+int read_parameters(int argc, char *argv[], char **infile, char **outfile,
+                    double *factorx, double *factory, int *interp, int *input_type)
+{
+    // display usage
+    if (argc < 5) {
+        print_help(argv[0]);
+        return 0;
+    }
+    else {
+        int i = 1;
+        *infile  = argv[i++];
+        *outfile = argv[i++];
+        *factorx  = atof(argv[i++]);
+        *factory  = atof(argv[i++]);
+
+        // "default" value initialization
+        *interp        = PAR_DEFAULT_INTERP; 
+        *input_type    = PAR_DEFAULT_INPUT;
+
+        //read each parameter from the command line
+        while(i < argc) {
+            if(strcmp(argv[i],"-i")==0)
+                if(i < argc-1)
+                    *interp = atoi(argv[++i]);
+
+            if(strcmp(argv[i],"-t")==0)
+                if(i < argc-1)
+                    *input_type = atoi(argv[++i]);
+            i++;
+        }
+
+        // check consistency
+        if ( !(*factorx >= 1) || !(*factory >= 1) ) {
+                printf("Invalid input factor\n");
+                return 0;
+        }
+
+        return 1;
+    }
+}
+
+int main(int c, char *v[])
+{
+    // initialize FFTW
+    init_fftw();
+    
+    // declaration of parameters
+    char *infile, *outfile;
+    double factorx, factory;
+    int interp, input_type;
+
+    int result = read_parameters(c, v, &infile, &outfile,
+                                 &factorx, &factory, &interp, &input_type);
+
+    if (result ) {
+        // read image
+        int w, h, pd;
+        double *in = iio_read_image_double_split(infile, &w, &h, &pd);
+
+        // initialize time
+        unsigned long t1 = xmtime(), t2;
+
+        // output sizes
+        int wout, hout;
+        if ( input_type ) {
+            wout = w*factorx;
+            hout = h*factory;
+            if ( factorx != wout*1.0/w ) {
+                factorx = wout*1.0/w;
+                printf("Changing horizontal up-sampling factor to %lf\n", factorx);
+            }
+            if ( factory != hout*1.0/h ) {
+                factory = hout*1.0/h;
+                printf("Changing vertical up-sampling factor to %lf\n", factory);
+            }
+        }
+        else {
+            wout = factorx;
+            hout = factory;
+            if ( wout < w ) {
+                wout = w;
+                printf("WARNING: the output width cannot be smaller than the input one\n");
+            }
+            if ( hout < h ) {
+                hout = h;
+                printf("WARNING: the output height cannot be smaller than the input one\n");
+            }
+        }
+
+        if ( wout == w && hout == h ) { // odd case (nothing to do)
+            // final time and print time
+            t2 = xmtime();
+
+            // write output image
+            iio_write_image_double_split(outfile, in, w, h, pd);
+
+            // free memory
+            free(in);
+        }
+        else {
+            // memory allocation
+            double *out = malloc(wout*hout*pd*sizeof*out);
+
+            // downsample the image
+            upsampling(out, in, w, h, wout, hout, pd, interp);
+
+            // final time
+            t2 = xmtime();
+
+            // write output image
+            iio_write_image_double_split(outfile, out, wout, hout, pd);
+
+            // free memory
+            free(in);
+            free(out);
+        }
+
+        // print time
+        printf("Up-sampling made in %.3f seconds \n", (float) (t2-t1)/1000);
+
+    }
+
+    // clean
+    clean_fftw();
+
+    return EXIT_SUCCESS;
+}

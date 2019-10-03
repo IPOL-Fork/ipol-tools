@@ -1,0 +1,46 @@
+.TH "IPOL tools User Manual" 1 "03 Oct 2019" "IPOL documentation"
+
+.SH NAME
+tpi_samplingdown
+
+.SH DESCRIPTION
+Trigonometric Polynomial Interpolation of Images
+
+.SH SYNOPSIS
+tpi_samplingdown input output valuex valuey [OPTIONS]
+
+.SH OPTIONS
+.TP
+input
+name input graphics file (jpeg | png | tiff)
+.TP
+output
+name output graphics file (jpeg | png | tiff)
+.TP
+valuex
+value horisontal down sample factor
+.TP
+valuey
+value vertical down sample factor
+.TP
+-t
+specify the input type of valuex and valuey (by default 1)
+
+.SH EXAMPLE
+tpi_samplingdown input.png output.tiff 2.5 3
+
+.SH COPYRIGHT
+Copyright : (C) 2019 IPOL Image Processing On Line http://www.ipol.im/
+ Licence   : GPL v2+, see GPLv2.txt
+
+.SH SEE ALSO
+ cjpeg (1),
+ djpeg (1)
+
+.SH CONTACTS
+.TP
+Author:
+Thibaud Briand <briand.thibaud@gmail.com>
+.TP
+Latest version available at:
+https://github.com/IPOL-Fork/ipol-tools
