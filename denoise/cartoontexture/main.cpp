@@ -124,8 +124,8 @@ int main(int argc, char **argv) {
     }
 
     // save cartoon and texture images
-    iio_save_image_float_split(argv[3], cartoon, Width, Height, nb_channels);
-    iio_save_image_float_split(argv[4], texture, Width, Height, nb_channels);
+    iio_write_image_float_split(argv[3], cartoon, Width, Height, nb_channels);
+    iio_write_image_float_split(argv[4], texture, Width, Height, nb_channels);
 
     delete[] cartoon1;
     delete[] cartoon2;

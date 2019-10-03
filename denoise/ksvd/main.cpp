@@ -63,7 +63,7 @@ int main(int argc, char **argv) {
             chnls,
             useAcceleration);
 
-  iio_save_image_float_split(argv[3], img_denoised, width, height, chnls);
+  iio_write_image_float_split(argv[3], img_denoised, width, height, chnls);
 
   //! Free Memory
   delete[] img_denoised;

@@ -45,7 +45,7 @@ Image read_image(const string &filename) {
 }
 
 void save_image(const Image &image, const string &filename) {
-  iio_save_image_float_vec(const_cast<char *>(filename.c_str()),
+  iio_write_image_float_vec(const_cast<char *>(filename.c_str()),
                              const_cast<float *>(image.data()),
                              image.columns(), image.rows(), image.channels());
 }

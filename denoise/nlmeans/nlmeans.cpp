@@ -153,7 +153,7 @@ int main(int argc, char **argv) {
   delete[] fpI;
   delete[] fpO;
   // save denoised images
-  iio_save_image_float_split(argv[3], denoised, d_w, d_h, d_c);
+  iio_write_image_float_split(argv[3], denoised, d_w, d_h, d_c);
   delete[] denoised;
 
   return EXIT_SUCCESS;
